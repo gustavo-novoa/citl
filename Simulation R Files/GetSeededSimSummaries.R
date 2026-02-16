@@ -2,7 +2,9 @@ library(dplyr)
 library(sf)
 library(redist)
 library(tibble)
-year<-2010
+
+
+setwd("~/Documents/GitHub/citl")
 
 blocks_wd<-paste0("/Users/gnovoa/Library/Mobile Documents/com~apple~CloudDocs/Documents/Coloring in the Lines/RR/Complete Shapefiles/blocks clipped to cities L2 data/", year)
 filenames_blocks<-list.files(path=blocks_wd, pattern="*.shp", full.names=FALSE) #Generate list of shapefiles
@@ -300,6 +302,7 @@ c$city[c$city=='lexington-fayette'] <- "lexington"
 c$city<-gsub(".", "", c$city, fixed=TRUE)
 df_sums<-left_join(df_sums, c, by=c('city', 'state'))
 
+setwd("./Compiled Results")
 
-#write.csv(df_sums, 'full_data_for_models.csv')
+write.csv(df_sums, 'full_data_for_models.csv')
 

@@ -2,7 +2,7 @@ library(dplyr)
 library(ggplot2)
 library(gridExtra)
 
-df<-read.csv("/Users/gnovoa/Library/Mobile Documents/com~apple~CloudDocs/Documents/Coloring in the Lines/RR/full_data_for_models.csv")
+df<-read.csv("./Compiled Results/full_data_for_models.csv")
 
 df$black_viable_c<-ifelse(df$prop_black_c>(1/df$ndists), 1,0)
 df$hisp_viable_c<-ifelse(df$prop_hisp_c>(1/df$ndists), 1,0)

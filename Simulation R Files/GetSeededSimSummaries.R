@@ -3,25 +3,18 @@ library(sf)
 library(redist)
 library(tibble)
 
+wd<-"~/Documents/GitHub/citl"
+setwd(wd)
 
-setwd("~/Documents/GitHub/citl")
-
-blocks_wd<-paste0("/Users/gnovoa/Library/Mobile Documents/com~apple~CloudDocs/Documents/Coloring in the Lines/RR/Complete Shapefiles/blocks clipped to cities L2 data/", year)
+blocks_wd<- paste0(wd,"/Complete Shapefiles/blocks clipped to cities/2010")
 filenames_blocks<-list.files(path=blocks_wd, pattern="*.shp", full.names=FALSE) #Generate list of shapefiles
 
 
-aggs_wd<-paste0("/Users/gnovoa/Library/Mobile Documents/com~apple~CloudDocs/Documents/Coloring in the Lines/RR/Complete Shapefiles/block data aggregated to districts L2/",year)
+aggs_wd<-paste0(wd, "/Complete Shapefiles/block data aggregated to districts/2010")
 filenames_aggs <- list.files(path=aggs_wd, pattern="*.shp", full.names=FALSE) #Generate list of aggregated cities
 
-#vra_plans_wd<-paste0("/Users/gnovoa/Library/Mobile Documents/com~apple~CloudDocs/Documents/Coloring in the Lines/RR/VRA Plans/", year)
-#vra_filenames_plans<-list.files(path=plans_wd, pattern="*.rds", full.names=FALSE) #Generate list of aggregated cities
-# plans_wd<-vra_plans_wd
-# filenames_plans<-vra_filenames_plans
-
-rb_plans_wd<-paste0("~/Princeton Dropbox/Gustavo Novoa/Replication Folder CITL/RB Simulated Plans Seeded")
-rb_filenames_plans<-list.files(path=rb_plans_wd, pattern="*.rds", full.names=FALSE) #Generate list of aggregated cities
-plans_wd<-rb_plans_wd
-filenames_plans<-rb_filenames_plans
+rb_plans_wd<- paste0(wd,"/RB Seeded Sims")
+filenames_plans<-list.files(path=rb_plans_wd, pattern="*.rds", full.names=FALSE) #Generate list of aggregated cities
 
 #Simulations
 cities<-character()
@@ -79,8 +72,6 @@ prop_asian_c<-numeric()
 
 
 for(i in 1:length(filenames_plans)){
-  #for(i in 1:5){
-  
   
   name<-substr(filenames_plans[i], 0, nchar(filenames_plans[i])-10)
   name<-gsub("_", " ", name)
@@ -126,7 +117,7 @@ for(i in 1:length(filenames_plans)){
   prop_asian_c<-c(prop_asian_c, sum(agg_dists$cvap_sn)/sum(agg_dists$cvap))
   
   
-  setwd(plans_wd)
+  setwd(rb_plans_wd)
   
   pop_tol<-max(agg_dists$pop/(sum(agg_dists$pop)/(n_distinct(agg_dists$distrct)))-1)
   ndists<-n_distinct(agg_dists$distrct)
@@ -154,10 +145,6 @@ for(i in 1:length(filenames_plans)){
            pct_nonwhite  = group_frac(city_map, pop-pop_wht, pop),
            pct_nonwhite_v= group_frac(city_map, pop-pop_wht, vap),
            pct_nonwhite_c= group_frac(city_map, cvap-cvp_wht, cvap)
-           # pct_reg_blk_c =group_frac(city_map[!is.na(city_map$eth1_aa),], eth1_aa, cvp_blc),
-           # pct_reg_wht_c =group_frac(city_map, eth1_eur, cvp_wht),
-           # pct_reg_hisp_c =group_frac(city_map, eth1_hisp, cvp_hsp),
-           # pct_reg_asn_c =group_frac(city_map, eth1_esa, cvap_sn),
     )
   
   
@@ -266,27 +253,28 @@ df_sums<-cbind(df_sums, actual_maj_asn, actual_maj_asn_c, actual_maj_asn_v, actu
 
 df_sums<-df_sums%>%rename(ndists=total_dists)
 
+# Add external data  -------------------- 
 
-df_seg<-read.csv("/Users/gnovoa/Library/Mobile Documents/com~apple~CloudDocs/Documents/Coloring in the Lines/RR/city_seg_2010.csv")
+setwd(wd)
+
+df_seg<-read.csv("./External Data/city_seg_2010.csv")
 
 df_seg$city <- gsub("_", " ", df_seg$city)
 
 df_sums<-left_join(df_sums, df_seg, by='city')
 
 
-# Add external data  -------------------- 
-
 # List of Gingles Eligibility
-gingles<-read.csv("~/Library/Mobile Documents/com~apple~CloudDocs/Documents/Coloring in the Lines/RR/gingles_list.csv")
+gingles<-read.csv("./External Data/gingles_list.csv")
 gingles$city<-tolower(gingles$city)
 df_sums<-left_join(df_sums, gingles)
 # Add state and population columns 
-city_state<-read.csv("~/Library/Mobile Documents/com~apple~CloudDocs/Documents/Coloring in the Lines/RR/city_state_extended.csv")
+city_state<-read.csv("./External Data/city_state_extended.csv")
 df_sums<-left_join(df_sums, city_state)
 
 # Add National Election Data 
-c1<- foreign::read.dta("/Users/gnovoa/Library/Mobile Documents/com~apple~CloudDocs/Documents/Coloring in the Lines/warshaw ideology/aip_city_pvote.dta")
-c2<-foreign::read.dta("/Users/gnovoa/Library/Mobile Documents/com~apple~CloudDocs/Documents/Coloring in the Lines/warshaw ideology/aip_consolidated_city_pvote.dta")
+c1<- foreign::read.dta("./External Data/aip_city_pvote.dta")
+c2<-foreign::read.dta("./External Data/aip_consolidated_city_pvote.dta")
 c<-rbind(c1,c2)
 c<-c%>%filter(year==2008)
 c$city[grep("Nashville-Davidson m", c$city)]<-"Nashville"
@@ -302,7 +290,5 @@ c$city[c$city=='lexington-fayette'] <- "lexington"
 c$city<-gsub(".", "", c$city, fixed=TRUE)
 df_sums<-left_join(df_sums, c, by=c('city', 'state'))
 
-setwd("./Compiled Results")
-
-write.csv(df_sums, 'full_data_for_models.csv')
+write.csv(df_sums, './Compiled Results/full_data_for_models.csv')
 

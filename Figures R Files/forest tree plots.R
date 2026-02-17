@@ -67,22 +67,15 @@ ftp <- function(dists_simd, additional_vector, cities, xl) {
   print(plot_data$gap)
 }
 
-
-
-
-blocks_wd<-paste0("/Users/gnovoa/Library/Mobile Documents/com~apple~CloudDocs/Documents/Coloring in the Lines/RR/Complete Shapefiles/blocks clipped to cities L2 data/", year)
+blocks_wd<- paste0(wd,"/Complete Shapefiles/blocks clipped to cities/2010")
 filenames_blocks<-list.files(path=blocks_wd, pattern="*.shp", full.names=FALSE) #Generate list of shapefiles
 
-aggs_wd<-paste0("/Users/gnovoa/Library/Mobile Documents/com~apple~CloudDocs/Documents/Coloring in the Lines/RR/Complete Shapefiles/block data aggregated to districts L2/",year)
+
+aggs_wd<-paste0(wd, "/Complete Shapefiles/block data aggregated to districts/2010")
 filenames_aggs <- list.files(path=aggs_wd, pattern="*.shp", full.names=FALSE) #Generate list of aggregated cities
 
-plans_wd<-"~/Downloads/throwRB"
-filenames_plans<-list.files(path=plans_wd, pattern="*.rds", full.names=FALSE) #Generate list of aggregated cities
-
-# ** CHANGE DIRECTORY BELOW TO VRA PLANS TO PRODUCE APPENDIX FIGURE 4 & 5
-
-#plans_wd<-paste0("/Users/gnovoa/Library/Mobile Documents/com~apple~CloudDocs/Documents/Coloring in the Lines/RR/VRA Plans/", year)
-#filenames_plans<-list.files(path=plans_wd, pattern="*.rds", full.names=FALSE) #Generate list of aggregated cities
+rb_plans_wd<- paste0(wd,"/RB Seeded Sims")
+filenames_plans<-list.files(path=rb_plans_wd, pattern="*.rds", full.names=FALSE) #Generate list of aggregated cities
 
 
 cities<-character()
@@ -151,7 +144,7 @@ for(i in 1:length(filenames_plans)){
   
   
   
-  setwd(plans_wd)
+  setwd(rb_plans_wd)
   
   pop_tol<-max(agg_dists$pop/(sum(agg_dists$pop)/(n_distinct(agg_dists$distrct)))-1)
   ndists<-n_distinct(agg_dists$distrct)
@@ -213,10 +206,6 @@ for(i in 1:length(filenames_plans)){
              pct_nonwhite  = group_frac(city_map, pop-pop_wht, pop),
              pct_nonwhite_v= group_frac(city_map, pop-pop_wht, vap),
              pct_nonwhite_c= group_frac(city_map, cvap-cvp_wht, cvap)
-             # pct_reg_blk_c =group_frac(city_map[!is.na(city_map$eth1_aa),], eth1_aa, cvp_blc),
-             # pct_reg_wht_c =group_frac(city_map, eth1_eur, cvp_wht),
-             # pct_reg_hisp_c =group_frac(city_map, eth1_hisp, cvp_hsp),
-             # pct_reg_asn_c =group_frac(city_map, eth1_esa, cvap_sn),
       )
     
     
@@ -334,7 +323,5 @@ rb_lists<-list(majority_white=majority_white,
                actual_maj_asn_c=actual_maj_asn_c,
                cities=cities
                )
-#save(rb_lists, file='rb_ft_data.RData')
-# 
-# load('rb_ft_data.RData')
-# list2env(rb_lists, envir = .GlobalEnv)
+
+save(rb_lists, file='/Users/gnovoa/Documents/GitHub/citl/Compiled Results/rb_ft_data.RData')

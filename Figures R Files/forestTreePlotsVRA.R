@@ -76,8 +76,8 @@ filenames_blocks<-list.files(path=blocks_wd, pattern="*.shp", full.names=FALSE) 
 aggs_wd<-paste0(wd, "/Complete Shapefiles/block data aggregated to districts/2010")
 filenames_aggs <- list.files(path=aggs_wd, pattern="*.shp", full.names=FALSE) #Generate list of aggregated cities
 
-rb_plans_wd<- paste0(wd,"/RB Seeded Sims")
-filenames_plans<-list.files(path=rb_plans_wd, pattern="*.rds", full.names=FALSE) #Generate list of aggregated cities
+vra_plans_wd<- paste0(wd,"/VRA Seeded Sims")
+filenames_plans<-list.files(path=vra_plans_wd, pattern="*.rds", full.names=FALSE) #Generate list of aggregated cities
 
 
 cities<-character()
@@ -147,7 +147,7 @@ for(i in 1:length(filenames_plans)){
   
   
   
-  setwd(rb_plans_wd)
+  setwd(vra_plans_wd)
   
   pop_tol<-max(agg_dists$pop/(sum(agg_dists$pop)/(n_distinct(agg_dists$distrct)))-1)
   ndists<-n_distinct(agg_dists$distrct)

@@ -45,7 +45,7 @@ check_convergence<-function(plans, name){
   
   # As a tidy tibble
   rhat_df <- tibble::tibble(stat = addl_cols, rhat = rhats)
-  answer<-(sum(unname(rhat_df$rhat>1.05))>0)
+  answer<-!(sum(unname(rhat_df$rhat>1.05))>0)
   
   ifelse(answer, cli::cli_alert(paste0(name, " has ***NOT*** converged")),cli::cli_alert(paste0(name, " has converged")))
   return(answer)

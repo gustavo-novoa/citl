@@ -1,5 +1,9 @@
 # Check convergence 
 
+library(redist)
+library(sf)
+library(dplyr)
+
 wd<-"~/Documents/GitHub/citl"
 setwd(wd)
 
@@ -45,20 +49,19 @@ check_convergence<-function(plans, name){
   rhat_df <- tibble::tibble(stat = addl_cols, rhat = rhats)
   answer<-!(sum(unname(rhat_df$rhat>1.05))>0)
   
-  ifelse(answer, cli::cli_alert(paste0(name, " has ***NOT*** converged")),cli::cli_alert(paste0(name, " has converged")))
+  ifelse(answer, cli::cli_alert(paste0(name, " has converged")),cli::cli_alert(paste0(name, " has ***NOT*** converged")))
   return(answer)
   
 }
 
 converged<-list()
-city<-list()
+cities<-list()
 
 for(i in 1:length(filenames_plans)){
 
     
   name<-substr(filenames_plans[i], 0, nchar(filenames_plans[i])-10)
   name<-gsub("_", " ", name)
-  cities<-c(cities, name)
   id<- grep(paste0("^", name, "_"), filenames_aggs)
   setwd(blocks_wd)
   blocks<-st_read(filenames_blocks[id], quiet=TRUE)
@@ -129,13 +132,13 @@ for(i in 1:length(filenames_plans)){
 
   
   converged[i]<-check_convergence(plans, name)
-  city[i]<-name
+  cities[i]<-name
   
   
 }
 
-
-vra_converged_df<-data.frame(unlist(city), unlist(converged))
-names(vra_converged_df)<-c("City", "Converged")
-setwd(wd)
-write.csv(vra_converged_df, file='Converged Lists/vra_converged.csv')
+# 
+# vra_converged_df<-data.frame(unlist(city), unlist(converged))
+# names(vra_converged_df)<-c("City", "Converged")
+# setwd(wd)
+# write.csv(vra_converged_df, file='Converged Lists/vra_converged.csv')

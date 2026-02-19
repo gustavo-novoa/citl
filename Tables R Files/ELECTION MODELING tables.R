@@ -2,9 +2,11 @@ library(dplyr)
 library(rstanarm)
 library(sjPlot)
 
-full<-read.csv("/Users/gnovoa/Library/Mobile Documents/com~apple~CloudDocs/Documents/Coloring in the Lines/RR/full_data_for_models.csv")
+setwd("~/Documents/GitHub/citl")
 
-linkedDBK<-read.csv("/Users/gnovoa/Library/Mobile Documents/com~apple~CloudDocs/Documents/Coloring in the Lines/RR/Yamil data/districtswDBK.csv")
+full<-read.csv("./Compiled Results/full_data_for_models.csv")
+
+linkedDBK<-read.csv("./External Data/districtswDBK.csv")
 
 data<-left_join(linkedDBK, full%>%dplyr::select(-city_pop), by=c('city', 'state'))
 
@@ -43,7 +45,7 @@ tab_model(b1ns,  h1ns, b1ns_city, h1ns_city, b1L_ns,h1L_ns, transform=NULL, coll
                                 "Dem Vote Share '08", 'City Pop. (in millions)', 
                                 "District Percent Hispanic (CVAP)", "Hispanic Segregation (CVAP)",
                                 "City Proportion Black (CVAP)", "City Proportion Hispanic (CVAP)"),
-                  dv.labels = rep(c("Black Candidate Elected", "Hispanic Candidate Elected"),3),file = "Table5.html")
+                  dv.labels = rep(c("Black Candidate Elected", "Hispanic Candidate Elected"),3),file = "./Table HTML Files/Table5.html")
 
 
 
@@ -69,6 +71,6 @@ tab_model(b1L_nsi, a1L_nsi,h1L_nsi,  transform=NULL, collapse.ci = TRUE, ci.hyph
                                                                                      "District Percent Asian (CVAP)", "Asian Segregation by CVAP", "Percent Asian x Segregation",
                                                                                      "District Percent Hispanic (CVAP)", "Hispanic Segregation (CVAP)",
                                                                                      "Percent Hispanic x Segregation"),
-                  dv.labels = c('Black Candidate Elected', "Asian Candidate Elected", "Hispanic Candidate Elected"),file = "TableA8.html")
+                  dv.labels = c('Black Candidate Elected', "Asian Candidate Elected", "Hispanic Candidate Elected"),file = "./Table HTML Files/TableA8.html")
 
 

@@ -2,7 +2,7 @@ library(dplyr)
 library(gt)
 library(sf)
 # Set working directory where files are saved
-wd<-"/Users/gnovoa/Princeton Dropbox/Gustavo Novoa/Replication Folder CITL/"
+wd<-"~/Documents/GitHub/citl"
 setwd(wd)
 load("districtFTPVRA.RData")
 

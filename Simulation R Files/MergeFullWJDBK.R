@@ -1,12 +1,13 @@
 library(dplyr)
 
-df<-read.csv("/Users/gnovoa/Library/Mobile Documents/com~apple~CloudDocs/Documents/Coloring in the Lines/RR/full_data_for_models.csv")
+setwd("/Users/gnovoa/Documents/GitHub/citl")
+
+df<-read.csv("./Compiled Results/full_data_for_models.csv")
 df$city_pop<-gsub(",", "", df$city_pop )
 df$city_pop1m<-as.numeric(df$city_pop)/1e6
 
 # Bring in JdBK data 
-setwd("/Users/gnovoa/Downloads")
-jdbk<-read.csv("/Users/gnovoa/Library/Mobile Documents/com~apple~CloudDocs/Documents/Coloring in the Lines/RR/ledb_candidatelevel.csv")
+jdbk<-read.csv("./External Data/ledb_candidatelevel.csv")
 
 jdbk <- jdbk %>%
   subset(year < 2011 & year > 2005 & office_consolidated == "Mayor" & winner == 'win') %>%
@@ -33,9 +34,9 @@ df2$black_mayor<-ifelse(df2$mayor_race=='black',1,0)
 
 # Add in councilor data
 
-ccprops2010<-read.csv("/Users/gnovoa/Princeton Dropbox/Gustavo Novoa/Replication Folder CITL/Councilmember Ethnicity in 2010/ccprops2010.csv")
+ccprops2010<-read.csv("./External Data/ccprops2010.csv")
 df2<-left_join(df2, ccprops2010%>%select(-ndists), by='city')
 
 # Add in councilor props 
 
-write.csv(df2, file= 'full_data_for_models_wdbk.csv')
+write.csv(df2, file= './Compiled Results/full_data_for_models_wdbk.csv')

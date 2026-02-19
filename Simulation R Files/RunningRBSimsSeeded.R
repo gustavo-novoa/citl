@@ -2,31 +2,24 @@
 library(dplyr)
 library(redist)
 library(sf)
-
-#Adjust as needed
-year<-2010
-
 set.seed(2026)
-#Set directory to files with blocks
-block_wd<-("~/Princeton Dropbox/Gustavo Novoa/Replication Folder CITL/Complete Shapefiles/blocks clipped to cities L2 data/2010")
-setwd(block_wd)
-filenames_city<-list.files(pattern="*.shp", full.names=FALSE) #Generate list of shapefiles
 
-#Set directory to summarized districts 
+wd<-"~/Documents/GitHub/citl"
+setwd(wd)
 
-agg_wd<-("~/Princeton Dropbox/Gustavo Novoa/Replication Folder CITL/Complete Shapefiles/block data aggregated to districts L2/2010")
-setwd(agg_wd)
-agg_city <- list.files(pattern="*.shp", full.names=FALSE) #Generate list of aggregated cities
+blocks_wd<- paste0(wd,"/Complete Shapefiles/blocks clipped to cities/2010")
+filenames_blocks<-list.files(path=blocks_wd, pattern="*.shp", full.names=FALSE) #Generate list of shapefiles
+
+aggs_wd<-paste0(wd, "/Complete Shapefiles/block data aggregated to districts/2010")
+agg_city <- list.files(path=aggs_wd, pattern="*.shp", full.names=FALSE) #Generate list of aggregated cities
 
 
 for(i in 1:length(filenames_city)){
-  
-  
-  setwd(block_wd)
-  city<-st_read(filenames_city[i]) #Read in city blocks 
+  setwd(blocks_wd)
+  city<-st_read(filenames_blocks[i]) #Read in city blocks 
   city<-city%>%dplyr::select(pop, GEOID, NAME, geometry)
   
-  setwd(agg_wd) #Read in district summaries 
+  setwd(aggs_wd) #Read in district summaries 
   agg_dists<-st_read(agg_city[i])
   
   #Calculate existing population deviation from actual map
@@ -43,9 +36,9 @@ for(i in 1:length(filenames_city)){
   #Run simulations. Use 2+ runs to ensure convergence acheived; Increase sims as needed
   rb_plans<-redist_smc(city_map, nsims=10000, ncores=parallel::detectCores(), runs=2)
   print("sim complete")
-  setwd("~/Princeton Dropbox/Gustavo Novoa/Replication Folder CITL/RB Simulated Plans Seeded")
+  setwd(paste0(wd,"/RB Seeded Sims/" ))
   #Save resulting plans
-  saveRDS(rb_plans, file=paste0(substr(filenames_city[i], 0, nchar(filenames_city[i])-7), "_plans.rds"))
+  saveRDS(rb_plans, file=paste0(substr(filenames_blocks[i], 0, nchar(filenames_blocks[i])-7), "_plans.rds"))
   
   
   

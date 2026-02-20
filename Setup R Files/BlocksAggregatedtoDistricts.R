@@ -35,7 +35,7 @@ filenames_county<-gsub("_", " ", filenames_county) #Replace underscores with spa
 
 
 
-for(i in 31:length(filenames_city)){
+for(i in 1:length(filenames_city)){
 
 
   

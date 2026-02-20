@@ -18,28 +18,23 @@ df$white_viable_v<-ifelse(df$prop_white_v>(1/df$ndists), 1,0)
 prop_sim_b<-ggplot(data=df, aes(x=prop_black_c, y=actual_maj_blk_c))+ geom_point() + xlim(0,1)+ylim(0,1)+
   geom_abline(slope=1, intercept=0,linetype='dotted', col='blue')+ylab("Proportion of Simulated Majority-Black Districts")+xlab("Black Proportion of City by CVAP")
 
+ggplot2::ggsave(path="./Figures/", filename="Figure_A1.tiff")
+
+
 # **** APPENDIX FIGURE 2 ***
 prop_sim_h<-ggplot(data=df, aes(x=prop_hisp_c, y=actual_maj_hisp_c))+ geom_point() + xlim(0,1)+ylim(0,1)+
   geom_abline(slope=1, intercept=0,linetype='dotted', col='blue')+ylab("Proportion of Simulated Majority-Hisp. Districts")+xlab("Hisp. Proportion of City by CVAP")
+
+ggplot2::ggsave(path="./Figures/", filename="Figure_A2.tiff")
+
+
 # **** APPENDIX FIGURE 3 ***
 prop_sim_w<-ggplot(data=df, aes(x=prop_white_c, y=actual_maj_wht_c))+ geom_point() + xlim(0,1)+ylim(0,1)+
   geom_abline(slope=1, intercept=0,linetype='dotted', col='blue')+ylab("Proportion of Simulated Majority-White Districts")+xlab("White Proportion of City by CVAP")
 
 grid.arrange(prop_sim_b, prop_sim_h, prop_sim_w ,nrow= 1)
 
-
-#  *** FIGURE 3 **** Simulation Against Actual
-
-bsim<-ggplot(data=df, aes(x= majority_black_c_median, y=actual_maj_blk_c))+ geom_point() + xlim(0,1)+ylim(0,1)+
-  geom_abline(slope=1, intercept=0,linetype='dotted', col='blue')+ylab("Proportion of Majority-Black Districts Implemented")+xlab("Prop. Black-Majority Simulated")
-
-hsim<-ggplot(data=df, aes(x=majority_hisp_c_median, y=actual_maj_hisp_c))+ geom_point() +xlim(0,1)+ylim(0,1)+
-  geom_abline(slope=1, intercept=0,linetype='dotted', col='blue')+ylab("Proportion of Majority-Hisp. Districts Implemented")+xlab("Prop. Hisp.-Majority Simulated")
-
-wsim<-ggplot(data=df, aes(x=majority_white_c_median, y=actual_maj_wht_c))+ geom_point() +xlim(0,1)+ylim(0,1)+
-  geom_abline(slope=1, intercept=0,linetype='dotted', col='blue')+ylab("Proportion of Majority-White Districts Implemented")+xlab("Prop. White-Majority Simulated")
-
-grid.arrange(bsim, hsim, nrow = 1)
+ggplot2::ggsave(path="./Figures/", filename="Figure_A3.tiff")
 
 
 
@@ -60,33 +55,52 @@ hprop<-ggplot(data=df, aes(x=prop_hisp_c, y=actual_maj_hisp_c))+ geom_point()+
   ylab("Proportion of Majority-Hisp. Districts")+xlab("Hisp. Proportion of City by CVAP")+geom_smooth(method='lm', color='red', se=FALSE)
 
 
-wprop<-ggplot(data=df, aes(x=prop_white_c, y=actual_maj_wht_c))+ geom_point() +xlim(0,1)+ylim(0,1)+
-  geom_abline(slope=1, intercept=0,linetype='dotted', col='blue')+ylab("Proportion of Majority-White Districts")+xlab("White Proportion of City by CVAP")
-
-aprop<-ggplot(data=df, aes(x=prop_asian_c, y=actual_maj_asn_c))+ geom_point() +xlim(0,1)+ylim(0,1)+
-  geom_abline( slope=1, intercept=0,linetype='dotted', col='blue')+ylab("Proportion of Majority-Asian Districts")+xlab("Asian Proportion of City by CVAP")
+# wprop<-ggplot(data=df, aes(x=prop_white_c, y=actual_maj_wht_c))+ geom_point() +xlim(0,1)+ylim(0,1)+
+#   geom_abline(slope=1, intercept=0,linetype='dotted', col='blue')+ylab("Proportion of Majority-White Districts")+xlab("White Proportion of City by CVAP")
+# 
+# aprop<-ggplot(data=df, aes(x=prop_asian_c, y=actual_maj_asn_c))+ geom_point() +xlim(0,1)+ylim(0,1)+
+#   geom_abline( slope=1, intercept=0,linetype='dotted', col='blue')+ylab("Proportion of Majority-Asian Districts")+xlab("Asian Proportion of City by CVAP")
 
 
 grid.arrange(bprop, hprop, nrow = 1)
 
+ggplot2::ggsave(path="./Figures/", filename="Figure_1.tiff")
+
 # **** FIGURE 2 ***** Segregation Against Actual
 
-bseg<-ggplot(data=df%>%filter(black_viable_c==1), aes(x=black_seg_c, y=actual_maj_blk_c))+ geom_point() +xlim(0,1)+ylim(0,1)+
+bseg<-ggplot(data=df%>%filter(black_viable_c==1 & !(is.na(black_seg_c))), aes(x=black_seg_c, y=actual_maj_blk_c))+ geom_point() +xlim(0,1)+ylim(0,1)+
   ylab("Proportion of Majority-Black Districts")+xlab("Black Dissimilarity Index")+
   geom_smooth(method = "lm", formula=y~x, fill='darkred')
 
-hseg<-ggplot(data=df%>%filter(hisp_viable_c==1), aes(x=hisp_seg, y=actual_maj_hisp_c))+ geom_point() +xlim(0,1)+ylim(0,1)+
+hseg<-ggplot(data=df%>%filter(hisp_viable_c==1 & !(is.na(hisp_seg_c))), aes(x=hisp_seg, y=actual_maj_hisp_c))+ geom_point() +xlim(0,1)+ylim(0,1)+
   geom_smooth(method = "lm", formula=y~x, fill='darkred')+
   ylab("Proportion of Majority-Hisp. Districts")+xlab("Hisp. Dissimilarity Index")
 
-wseg<-ggplot(data=df%>%filter(white_viable_c==1), aes(x=white_seg, y=actual_maj_wht_c))+ geom_point() +xlim(0,1)+ylim(0,1)+
-  geom_smooth(method = "lm", formula=y~x, fill='darkred')+
-  ylab("Proportion of Majority-White Districts")+xlab("White Dissimilarity Index")
-
-aseg<-ggplot(data=df, aes(x=asian_seg, y=actual_maj_asn_c))+ geom_point() +xlim(0,1)+ylim(0,1)+
-  geom_smooth(method = "lm", formula=y~x, fill='darkred')+
-  ylab("Proportion of Majority-Asian Districts")+xlab("Asian Dissimilarity Index")
+# wseg<-ggplot(data=df%>%filter(white_viable_c==1), aes(x=white_seg, y=actual_maj_wht_c))+ geom_point() +xlim(0,1)+ylim(0,1)+
+#   geom_smooth(method = "lm", formula=y~x, fill='darkred')+
+#   ylab("Proportion of Majority-White Districts")+xlab("White Dissimilarity Index")
+# 
+# aseg<-ggplot(data=df, aes(x=asian_seg, y=actual_maj_asn_c))+ geom_point() +xlim(0,1)+ylim(0,1)+
+#   geom_smooth(method = "lm", formula=y~x, fill='darkred')+
+#   ylab("Proportion of Majority-Asian Districts")+xlab("Asian Dissimilarity Index")
 
 grid.arrange(bseg, hseg, nrow = 1)
 
+ggplot2::ggsave(path="./Figures/", filename="Figure_2.tiff")
+
+
+#  *** FIGURE 3 **** Simulation Against Actual
+
+bsim<-ggplot(data=df, aes(x= majority_black_c_median, y=actual_maj_blk_c))+ geom_point() + xlim(0,1)+ylim(0,1)+
+  geom_abline(slope=1, intercept=0,linetype='dotted', col='blue')+ylab("Proportion of Majority-Black Districts Implemented")+xlab("Prop. Black-Majority Simulated")
+
+hsim<-ggplot(data=df, aes(x=majority_hisp_c_median, y=actual_maj_hisp_c))+ geom_point() +xlim(0,1)+ylim(0,1)+
+  geom_abline(slope=1, intercept=0,linetype='dotted', col='blue')+ylab("Proportion of Majority-Hisp. Districts Implemented")+xlab("Prop. Hisp.-Majority Simulated")
+
+wsim<-ggplot(data=df, aes(x=majority_white_c_median, y=actual_maj_wht_c))+ geom_point() +xlim(0,1)+ylim(0,1)+
+  geom_abline(slope=1, intercept=0,linetype='dotted', col='blue')+ylab("Proportion of Majority-White Districts Implemented")+xlab("Prop. White-Majority Simulated")
+
+grid.arrange(bsim, hsim, nrow = 1)
+
+ggplot2::ggsave(path="./Figures/", filename="Figure_3.tiff")
 

@@ -267,6 +267,9 @@ df_sums<-left_join(df_sums, df_seg, by='city')
 # List of Gingles Eligibility
 gingles<-read.csv("./External Data/gingles_list.csv")
 gingles$city<-tolower(gingles$city)
+gingles$city[gingles$city=="columbus"]<-"columbus ga"
+gingles$city[gingles$city=="springfield"]<-"springfield ma"
+
 df_sums<-left_join(df_sums, gingles)
 # Add state and population columns 
 city_state<-read.csv("./External Data/city_state_extended.csv")

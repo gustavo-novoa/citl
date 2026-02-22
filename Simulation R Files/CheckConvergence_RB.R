@@ -48,7 +48,7 @@ check_convergence<-function(plans, name){
   answer<-!(sum(unname(rhat_df$rhat>1.05))>0)
   
   ifelse(answer, cli::cli_alert(paste0(name, " has ***NOT*** converged")),cli::cli_alert(paste0(name, " has converged")))
-  return(answer)
+  return(!answer)
   
 }
 

@@ -4,10 +4,10 @@ library(sf)
 # Set working directory where files are saved
 wd<-"~/Documents/GitHub/citl"
 setwd(wd)
-load("districtFTPVRA.RData")
+load("./Compiled Results/vra_ftp_data.RData")
 
 #dataframe with more election data -----
-df2<-read.csv("full_data_for_models_wdbk.csv")
+df2<-read.csv("./Compiled Results/full_data_for_models_wdbk.csv")
 df2$hispanic_mayor<-ifelse(df2$mayor_race=='hispanic',1,0)
 
 
@@ -42,7 +42,7 @@ sum(df2$actual_maj_hisp_c>0)
 sum(df2$actual_maj_hisp_c>0 & df2$actual_maj_blk_c>0)
 
 
-aggs_wd<-paste0(wd, "/Complete Shapefiles/block data aggregated to districts L2/2010")
+aggs_wd<-paste0(wd, "/Complete Shapefiles/block data aggregated to districts/2010")
 filenames_aggs <- list.files(path=aggs_wd, pattern="*.shp", full.names=FALSE) #Generate list of aggregated cities
 setwd(aggs_wd)
 #Initialize group props 
@@ -84,7 +84,7 @@ mean(df2$asian_seg_c[df2$prop_asian_c > 1/df2$ndists *.45])
 
 # 6.2 Race-Blind Simulation Results ---------------------------------
 
-length(unique(df2$cities[df2$majority_black_c_median>0 | df2$majority_hisp_c_median>0 | df2$majority_asian_c_median>0]))
+length(unique(df2$city[df2$majority_black_c_median>0 | df2$majority_hisp_c_median>0 | df2$majority_asian_c_median>0]))
 #80 cities  
 
 sum(df2$majority_black_c_95th>0 | df2$majority_hisp_c_95th>0 | df2$majority_asian_c_95th>0)
@@ -151,7 +151,7 @@ make_table<-function(table_data, title, filename){
   formatted_table
   
 
-  gtsave(formatted_table, filename=filename)
+  #gtsave(formatted_table, filename=filename)
   
 }
 
@@ -169,7 +169,7 @@ h4<-sum(df2$actual_maj_hisp_c[df2$hisp_viables_c]>=df2$majority_hisp_c_5th[df2$h
 # Outside Range: 5
 h5<-sum(df2$actual_maj_hisp_c[df2$hisp_viables_c]<df2$majority_hisp_c_5th[df2$hisp_viables_c] | df2$actual_maj_hisp_c[df2$hisp_viables_c]>df2$majority_hisp_c_95th[df2$hisp_viables_c])
 # Total: 73
-h6<-length(df2$cities[df2$hisp_viables_c])
+h6<-length(df2$city[df2$hisp_viables_c])
 
 #Black Districts 
 #Fewer: 0
@@ -183,7 +183,7 @@ b4<-sum(df2$actual_maj_blk_c[df2$black_viables_c]>=df2$majority_black_c_5th[df2$
 # Outside Range: 12
 b5<-sum(df2$actual_maj_blk_c[df2$black_viables_c]<df2$majority_black_c_5th[df2$black_viables_c] | df2$actual_maj_blk_c[df2$black_viables_c]>df2$majority_black_c_95th[df2$black_viables_c])
 # Total: 94
-b6<-length(df2$cities[df2$black_viables_c])
+b6<-length(df2$city[df2$black_viables_c])
 
 rb_table_data <- data.frame(
   District_Type = c("Total Hisp. Districts", "Black Districts"),

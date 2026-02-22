@@ -2,6 +2,7 @@
 library(redist)
 library(tidyverse)
 library(forcats)
+library(sf)
 
 wd<-"~/Documents/GitHub/citl"
 setwd(wd)
@@ -274,21 +275,17 @@ for(i in 1:length(filenames_plans)){
 
 setwd("~/Documents/GitHub/citl")
 
-# vra_wp<-vra_ftp(majority_white, actual_maj_wht,stringr::str_to_title(cities), xl="Proportion Majority-White Districts (Pop.)")
-# vra_wv<-vra_ftp(majority_white_v, actual_maj_wht_v,stringr::str_to_title(cities), xl="Proportion Majority-White Districts (VAP)")
-# vra_wc<-vra_ftp(majority_white_c, actual_maj_wht_c,stringr::str_to_title(cities), xl="Proportion Majority-White Districts (CVAP)")
-# 
-# vra_hp<-vra_ftp(majority_hisp, actual_maj_hisp,stringr::str_to_title(cities), xl="Proportion Majority-Hispanic Districts (Pop.)") 
-# vra_hv<-vra_ftp(majority_hisp_v, actual_maj_hisp_v,stringr::str_to_title(cities), xl="Proportion Majority-Hispanic Districts (VAP)") 
+# ***** APPENDIX FIGURE 5 **********
+
 vra_hc<-vra_ftp(majority_hisp_c, actual_maj_hisp_c,stringr::str_to_title(cities), xl="Proportion Majority-Hispanic Districts") 
 ggplot2::ggsave(path="./Figures/", filename="Figure_A5.tiff")
-# vra_bp<-vra_ftp(majority_black, actual_maj_blk,stringr::str_to_title(cities), xl="Proportion Majority-Black Districts (Pop.)") 
-# vra_bv<-vra_ftp(majority_black_v, actual_maj_blk_v,stringr::str_to_title(cities), xl="Proportion Majority-Black Districts (VAP)") 
+
+
+# ***** APPENDIX FIGURE 4 **********
+
 vra_bc<-vra_ftp(majority_black_c, actual_maj_blk_c,stringr::str_to_title(cities), xl="Proportion Majority-Black Districts") 
 ggplot2::ggsave(path="./Figures/", filename="Figure_A4.tiff")
-# vra_ap<-vra_ftp(majority_asian, actual_maj_asn,stringr::str_to_title(cities), xl="Proportion Majority-Asian Districts (Pop.)") 
-# vra_av<-vra_ftp(majority_asian_v, actual_maj_asn_v,stringr::str_to_title(cities), xl="Proportion Majority-Asian Districts (VAP)") 
-# vra_ac<-vra_ftp(majority_asian_c, actual_maj_asn_c,stringr::str_to_title(cities), xl="Proportion Majority-Asian Districts (CVAP)") 
+
 
 vra_lists<-list(majority_white=majority_white,
                majority_white_v=majority_white_v,
@@ -317,6 +314,6 @@ vra_lists<-list(majority_white=majority_white,
                cities=cities
 )
 
-save(vra_lists, file='/Users/gnovoa/Documents/GitHub/citl/Compiled Results/vra_ft_data.RData')
 
+save.image("/Users/gnovoa/Documents/GitHub/citl/Compiled Results/vra_ftp_data.RData")
 

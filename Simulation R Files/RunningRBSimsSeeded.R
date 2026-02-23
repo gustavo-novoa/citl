@@ -15,6 +15,8 @@ agg_city <- list.files(path=aggs_wd, pattern="*.shp", full.names=FALSE) #Generat
 
 
 for(i in 1:length(filenames_blocks)){
+
+
   setwd(blocks_wd)
   city<-st_read(filenames_blocks[i]) #Read in city blocks 
   city<-city%>%dplyr::select(pop, GEOID, NAME, geometry)
@@ -34,7 +36,7 @@ for(i in 1:length(filenames_blocks)){
   
   
   #Run simulations. Use 2+ runs to ensure convergence acheived; Increase sims as needed
-  rb_plans<-redist_smc(city_map, nsims=15000, ncores=parallel::detectCores(), runs=2)
+  rb_plans<-redist_smc(city_map, nsims=25000, ncores=parallel::detectCores(), runs=2)
   print("sim complete")
   setwd(paste0(wd,"/RB Seeded Sims/" ))
   #Save resulting plans

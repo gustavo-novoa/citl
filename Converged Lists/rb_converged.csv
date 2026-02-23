@@ -58,16 +58,16 @@
 "57","knoxville",FALSE
 "58","lakeland",FALSE
 "59","lansing",FALSE
-"60","laredo",FALSE
+"60","laredo",TRUE
 "61","las vegas",FALSE
 "62","lexington",FALSE
 "63","lincoln",FALSE
 "64","little rock",FALSE
 "65","long beach",FALSE
 "66","los angeles",FALSE
-"67","louisville",TRUE
+"67","louisville",FALSE
 "68","lubbock",FALSE
-"69","madison",TRUE
+"69","madison",FALSE
 "70","mckinney",FALSE
 "71","memphis",FALSE
 "72","mesa",FALSE
@@ -112,7 +112,7 @@
 "111","santa clara",FALSE
 "112","santa rosa",FALSE
 "113","savannah",FALSE
-"114","seattle",FALSE
+"114","seattle",TRUE
 "115","shreveport",FALSE
 "116","south bend",FALSE
 "117","spokane",FALSE

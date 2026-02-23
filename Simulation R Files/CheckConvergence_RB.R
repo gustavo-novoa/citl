@@ -1,5 +1,9 @@
 # Check convergence 
 
+library(sf)
+library(dplyr)
+library(redist)
+
 wd<-"~/Documents/GitHub/citl"
 setwd(wd)
 
@@ -47,8 +51,8 @@ check_convergence<-function(plans, name){
   rhat_df <- tibble::tibble(stat = addl_cols, rhat = rhats)
   answer<-!(sum(unname(rhat_df$rhat>1.05))>0)
   
-  ifelse(answer, cli::cli_alert(paste0(name, " has ***NOT*** converged")),cli::cli_alert(paste0(name, " has converged")))
-  return(!answer)
+  ifelse(!answer, cli::cli_alert(paste0(name, " has ***NOT*** converged")),cli::cli_alert(paste0(name, " has converged")))
+  return(answer)
   
 }
 

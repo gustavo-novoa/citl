@@ -14,7 +14,7 @@ aggs_wd<-paste0(wd, "/Complete Shapefiles/block data aggregated to districts/201
 agg_city <- list.files(path=aggs_wd, pattern="*.shp", full.names=FALSE) #Generate list of aggregated cities
 
 
-for(i in 1:length(filenames_blocks)){
+for(i in 1:length(agg_city)){
 
 
   setwd(blocks_wd)
@@ -36,7 +36,7 @@ for(i in 1:length(filenames_blocks)){
   
   
   #Run simulations. Use 2+ runs to ensure convergence acheived; Increase sims as needed
-  rb_plans<-redist_smc(city_map, nsims=25000, ncores=parallel::detectCores(), runs=2)
+  rb_plans<-redist_smc(city_map, nsims=28000, ncores=parallel::detectCores(), runs=2)
   print("sim complete")
   setwd(paste0(wd,"/RB Seeded Sims/" ))
   #Save resulting plans

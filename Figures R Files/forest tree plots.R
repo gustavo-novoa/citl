@@ -1,5 +1,6 @@
 library(redist)
 library(tidyverse)
+library(ggplot2)
 year<-2010
 
 wd<-"~/Documents/GitHub/citl"
@@ -266,26 +267,33 @@ for(i in 1:length(filenames_plans)){
   
 }
 
+setwd(wd)
+
+
 # **** FIGURE A6*****
 hv<-ftp(majority_hisp_v, actual_maj_hisp_v,stringr::str_to_title(cities), xl="Proportion Majority-Hispanic Districts (VAP)") 
+ggsave(path="./Figures/", filename="Figure_A6.tiff")
+
 
 # **** FIGURE A7*****
 bv<-ftp(majority_black_v, actual_maj_blk_v,stringr::str_to_title(cities), xl="Proportion Majority-Black Districts (VAP)") 
-ggplot2::ggsave(path="./Figures/", filename="Figure_A7.tiff")
+ggsave(path="./Figures/", filename="Figure_A7.tiff")
 
 # **** FIGURE A8 ****
 wc<-ftp(majority_white_c, actual_maj_wht_c,stringr::str_to_title(cities), xl="Proportion Majority-White Districts (CVAP)")
+ggsave(path="./Figures/", filename="Figure_A8.tiff")
 
 # **** FIGURE A9 *****
 wv<-ftp(majority_white_v, actual_maj_wht_v,stringr::str_to_title(cities), xl="Proportion Majority-White Districts (VAP)")
+ggsave(path="./Figures/", filename="Figure_A9.tiff")
 
 # *** FIGURE 4 ******
 bc<-ftp(majority_black_c, actual_maj_blk_c,stringr::str_to_title(cities), xl="Proportion Majority-Black Districts") 
-ggplot2::ggsave(path="./Figures/", filename="Figure_4.tiff")
+ggsave(path="./Figures/", filename="Figure_4.tiff")
 
 # *** FIGURE 5 ******
 hc<-ftp(majority_hisp_c, actual_maj_hisp_c,stringr::str_to_title(cities), xl="Proportion Majority-Hispanic Districts") 
-ggplot2::ggsave(path="./Figures/", filename="Figure_5.tiff")
+ggsave(path="./Figures/", filename="Figure_5.tiff")
 
 
 # av<-ftp(majority_asian_v, actual_maj_asn_v,stringr::str_to_title(cities), xl="Proportion Majority-Asian Districts (VAP)") 
@@ -317,5 +325,4 @@ rb_lists<-list(majority_white=majority_white,
                actual_maj_asn_c=actual_maj_asn_c,
                cities=cities
                )
-
 save(rb_lists, file='/Users/gnovoa/Documents/GitHub/citl/Compiled Results/rb_ft_data.RData')

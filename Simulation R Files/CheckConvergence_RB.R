@@ -60,7 +60,8 @@ converged<-list()
 city<-list()
 
 for(i in 1:length(filenames_plans)){
-  
+
+
   name<-substr(filenames_plans[i], 0, nchar(filenames_plans[i])-10)
   name<-gsub("_", " ", name)
   city<-c(city, name)

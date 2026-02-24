@@ -1,6 +1,7 @@
 
 library(dplyr)
 library(redist)
+library(sf)
 year<-2010
 
 wd<-"~/Documents/GitHub/citl"
@@ -132,5 +133,5 @@ majority_nonwhite_c[[i]] <-plans%>%group_by(draw)%>%summarize(sum(majority_nonwh
 total_dists<-c(total_dists,n_distinct(agg_dists$distrct))
 }
   
-
+setwd("/Users/gnovoa/Documents/GitHub/citl/")
 save.image(file = "Compiled Results/districts_rb.RData")

@@ -495,4 +495,3 @@ sum(reps1020$absolute_black[!is.na(reps1020$city_ordered)])
 sum(city_medians$median_absolute[!is.na(city_medians$city_ordered)])
 
 
-#Plot Difference in Elected Hisp. Concilors Across Hisp. Proportion----

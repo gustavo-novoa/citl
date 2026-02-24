@@ -85,7 +85,7 @@ mean(df2$asian_seg_c[df2$prop_asian_c > 1/df2$ndists *.45])
 # 6.2 Race-Blind Simulation Results ---------------------------------
 
 length(unique(df2$city[df2$majority_black_c_median>0 | df2$majority_hisp_c_median>0 | df2$majority_asian_c_median>0]))
-#80 cities  
+#82 cities  
 
 sum(df2$majority_black_c_95th>0 | df2$majority_hisp_c_95th>0 | df2$majority_asian_c_95th>0)
 # 93 cities 
@@ -151,7 +151,7 @@ make_table<-function(table_data, title, filename){
   formatted_table
   
 
-  #gtsave(formatted_table, filename=filename)
+  gtsave(formatted_table, filename=filename)
   
 }
 
@@ -195,38 +195,39 @@ rb_table_data <- data.frame(
   Total = c(h6, b6)
 )
 
+setwd("~/Documents/GitHub/citl/Table HTML Files")
 make_table(rb_table_data, "Race Blind Simulation Results", "table_1.html")
 
 
 # 6.3 VRA Informed Results Table 2   --------------------------------------
 #Hisp. Districts 
-# Fewer: 1
+# Fewer: 0
 vra_h1<-sum(vra_hc$data$actual<vra_hc$data$median)
-# Equal: 19
+# Equal: 20
 vra_h2<-sum(vra_hc$data$actual==vra_hc$data$median)
-# Greater: 4
+# Greater: 3
 vra_h3<-sum(vra_hc$data$actual>vra_hc$data$median)
-# Within Range: 23
+# Within Range: 22
 vra_h4<-sum(vra_hc$data$actual>=vra_hc$data$fifth & vra_hc$data$actual<=vra_hc$data$ninetyfifth )
 # Outside Range: 1
 vra_h5<-sum(vra_hc$data$actual<vra_hc$data$fifth | vra_hc$data$actual>vra_hc$data$ninetyfifth )
-# Total: 24
+# Total: 23
 vra_h6<-length(vra_hc$data$cities)
 
 #Black Districts 
 #combine two datasets 
 vra_bc<-rbind(vra_bc[[1]]$data, vra_bc[[2]]$data)
-# Fewer: 2
+# Fewer: 1
 vra_b1<-sum(vra_bc$actual<vra_bc$median)
 # Equal: 23
 vra_b2<-sum(vra_bc$actual==vra_bc$median)
 # Greater: 17
 vra_b3<-sum(vra_bc$actual>vra_bc$median)
-# Within Range: 35
+# Within Range: 33
 vra_b4<-sum(vra_bc$actual>=vra_bc$fifth & vra_bc$actual<=vra_bc$ninetyfifth )
-# Outside Range: 7
+# Outside Range: 8
 vra_b5<-sum(vra_bc$actual<vra_bc$fifth | vra_bc$actual>vra_bc$ninetyfifth )
-# Total: 42
+# Total: 41
 vra_b6<-length(vra_bc$cities)
 
 vra_table_data <- data.frame(
@@ -239,6 +240,6 @@ vra_table_data <- data.frame(
   Total = c(vra_h6, vra_b6)
 )
 
-
+setwd("~/Documents/GitHub/citl/Table HTML Files")
 # Create formatted table
 make_table(vra_table_data, "VRA Simulation Results","table_2.html")

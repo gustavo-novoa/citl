@@ -35,7 +35,7 @@ df2$black_mayor<-ifelse(df2$mayor_race=='black',1,0)
 # Add in councilor data
 
 ccprops2010<-read.csv("./External Data/ccprops2010.csv")
-df2<-left_join(df2, ccprops2010%>%select(-ndists), by='city')
+df2<-left_join(df2, ccprops2010%>%dplyr::select(-ndists), by='city')
 
 # Add in councilor props 
 

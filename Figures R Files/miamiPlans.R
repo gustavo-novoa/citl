@@ -115,8 +115,6 @@ i<-grep("miami", filenames_plans)
   name<-gsub("_", " ", name)
   cities<-c(cities, name)
   id<-(grep(name, filenames_aggs))
-  if(name=='jackson')
-    id<-id[1] # differentiate between jackson and jacksonville
   setwd(blocks_wd)
   blocks<-st_read(filenames_blocks[id])
   setwd(aggs_wd)
@@ -149,39 +147,7 @@ i<-grep("miami", filenames_plans)
   city_map$adj<-redist.adjacency(city_map)
   
   plans<-readRDS(filenames_plans[i])  
-  
-  
-  if(year==2020){
-    plans = plans %>%
-      mutate(pop_dev = abs(total_pop / get_target(city_map) - 1),
-             pct_white   = group_frac(city_map, pop_wht, pop),
-             pct_white_v = group_frac(city_map, vap_wht, vap),
-             pct_white_c = group_frac(city_map, cvp_wht, cvap),
-             pct_black   = group_frac(city_map, pp_blck, pop),
-             pct_black_v = group_frac(city_map, vp_blck, vap),
-             pct_black_c = group_frac(city_map, cvp_blc, cvap),
-             pct_hisp    = group_frac(city_map, pp_hspn, pop),
-             pct_hisp_v  = group_frac(city_map, vap_hsp, vap),
-             pct_hisp_c  = group_frac(city_map, cvp_hsp, cvap),
-             pct_asian   = group_frac(city_map, pop_asn, pop),
-             pct_asian_v   = group_frac(city_map, vap_asn, vap),
-             pct_asian_c   = group_frac(city_map, cvap_sn, cvap),
-             pct_nonwhite  = group_frac(city_map, pop-pop_wht, pop),
-             pct_nonwhite_v= group_frac(city_map, pop-pop_wht, vap),
-             pct_nonwhite_c= group_frac(city_map, cvap-cvp_wht, cvap),
-             pct_reg_blk_c =group_frac(city_map, reg_aa, cvp_blc),
-             pct_reg_wht_c =group_frac(city_map, reg_eur, cvp_wht),
-             pct_reg_hisp_c =group_frac(city_map, reg_hisp, cvp_hsp),         
-             pct_reg_asn_c =group_frac(city_map, reg_esa, cvap_sn),   
-             pct_vtd_reg_eur   =group_frac(city_map, vtd_eur, reg_eur),
-             pct_vtd_reg_aa    =group_frac(city_map, vtd_aa, reg_aa),
-             pct_vtd_reg_esa   =group_frac(city_map, vtd_esa, reg_esa),
-             pct_vtd_reg_hisp  =group_frac(city_map, vtd_hisp, reg_hisp),
-             pct_vtd_reg_eur   =group_frac(city_map, vtd_eur, cvp_wht),
-             pct_vtd_reg_aa    =group_frac(city_map, vtd_aa, cvp_blc),
-             pct_vtd_reg_esa   =group_frac(city_map, vtd_esa, cvap_sn),
-             pct_vtd_reg_hisp  =group_frac(city_map, vtd_hisp, cvp_hsp)
-      )}
+
   
   if(year==2010){
     
@@ -267,10 +233,10 @@ i<-grep("miami", filenames_plans)
   
   ## Plot unique 
   
-  # Draw with 2 hispanic districts
+  # Draw with a white-majority district
   draw1<-as.numeric(plans %>% as_tibble%>%
                       distinct(draw, .keep_all = TRUE) %>% 
-                      filter(plan_maj_hisp_c == 2) %>% 
+                      filter(plan_maj_white_c == 1) %>% 
                       slice(1)%>%select(draw))
   
   # Draw with 4 hispanic districts

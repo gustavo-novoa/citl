@@ -6,6 +6,7 @@ library(data.table)
 library(ggplot2)
 library(ggridges)
 library(stringr)
+library(rstanarm)
 # More memory efficient than data.frame
 # Set data.table threads to optimize memory usage
 setDTthreads(threads = 4)
@@ -334,7 +335,6 @@ if (missing_seg > 0) {
 }
 
 # Fit model with both pct_hisp_c and pct_white_c
-library(rstanarm)
 h1 <- stan_glm(data = winner_data%>%filter(hisp_viables_c), 
                formula = I(race_est == 'hispanic') ~ pct_hisp_c + pct_white_c +
                  city_pop_ms +prop_hisp_c +hisp_seg_c , 

@@ -62,25 +62,6 @@ h<-ggplot(dat_hisp, aes(x = race_est, y = proportion, color = race_est)) +
   theme_minimal() + ylim(0,100)+
   theme(legend.position = "none")  # Remove the legend
 
-dat_asian <- dat %>%
-  filter(a_pct_c >= 0.45, winner == "win", race_est!='other') %>%
-  count(race_est) %>%
-  mutate(proportion = n*100 / sum(n))
-dat_asian$race_est<-c("Asian", "White", "Hisp.")
-
-
-a<-ggplot(dat_asian, aes(x = race_est, y = forcats::fct_reorder(proportion, proportion),  color = race_est)) +
-  geom_point(size =2.5) +
-  geom_text(aes(label = n), vjust = -1, size = 3.5) +  # Add count text above the dots
-  labs(
-    title = "Majority-Hisp. Districts",
-    x = "Winner Race/Ethnicity",
-    y = ""
-  ) +
-  theme_minimal() + ylim(0,100)+
-  theme(legend.position = "none")  # Remove the legend
-
-gridExtra::grid.arrange(w,b,h, nrow=1)
-
-
+fig6 <- gridExtra::arrangeGrob(w, b, h, nrow=1)
+ggsave(filename='figure_6.tiff', plot=fig6, path='./Figures/')
 

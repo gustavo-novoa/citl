@@ -1,6 +1,7 @@
 library(dplyr)
 library(rstanarm)
 library(sjPlot)
+set.seed(2026)
 
 setwd("~/Documents/GitHub/citl")
 

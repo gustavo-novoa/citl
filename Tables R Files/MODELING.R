@@ -2,6 +2,7 @@ library(rstanarm)
 library(sjPlot)
 library(dplyr)
 library(arm)
+set.seed(2026)
 
 wd<-"~/Documents/GitHub/citl"
 setwd(wd)

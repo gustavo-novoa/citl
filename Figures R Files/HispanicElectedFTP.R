@@ -7,6 +7,7 @@ library(ggplot2)
 library(ggridges)
 library(stringr)
 library(rstanarm)
+set.seed(2026)
 # More memory efficient than data.frame
 # Set data.table threads to optimize memory usage
 setDTthreads(threads = 4)

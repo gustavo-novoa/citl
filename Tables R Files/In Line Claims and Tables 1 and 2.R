@@ -18,14 +18,14 @@ nrow(df2) # Page 133 cities
 #Number of states 
 n_distinct(df2$state) # 39 states
 
-mean(df2$city_pop) # Population mean 367451
+mean(df2$city_pop) # Population mean 367463
 median(df2$city_pop) # Population median 242803
 sum(df2$city_pop<150000) # 28 cities <150000
 sum(df2$city_pop<100000) # 10 cities <100000
 
 # 5.3 VRA Informed Simulations ------------------------
 
-length(df2$cities[df2$hisp_gingles_c|df2$black_gingles_c])
+length(df2$city[df2$hisp_gingles_c|df2$black_gingles_c])
 
 
 # 6.1 Implemented Districts  ----------------------------
@@ -38,6 +38,8 @@ sum(df2$actual_maj_hisp_c>0|df2$actual_maj_blk_c>0|df2$actual_maj_asn_c>0)
 sum(df2$actual_maj_blk_c>0)
 #At least one Hispanic = 34
 sum(df2$actual_maj_hisp_c>0)
+#At least one Asian = 4
+sum(df2$actual_maj_asn_c>0)
 # At least one Black & One Hispanic  = 8
 sum(df2$actual_maj_hisp_c>0 & df2$actual_maj_blk_c>0)
 
@@ -199,6 +201,15 @@ setwd("~/Documents/GitHub/citl/Table HTML Files")
 make_table(rb_table_data, "Race Blind Simulation Results", "table_1.html")
 
 
+#At least one Black = 62
+sum(df2$actual_maj_blk_c>0)
+#Proportion implemented fewer Black districts than median sim=0
+sum(df2$majority_black_c_median>df2$actual_maj_blk_c)
+
+# Median simulation = actual Hispanic = 60
+sum(df2$actual_maj_hisp_c[df2$hisp_viables_c]==df2$majority_hisp_c_median[df2$hisp_viables_c])
+# 60 /73 = 0.82
+
 # 6.3 VRA Informed Results Table 2   --------------------------------------
 #Hisp. Districts 
 # Fewer: 0
@@ -243,3 +254,28 @@ vra_table_data <- data.frame(
 setwd("~/Documents/GitHub/citl/Table HTML Files")
 # Create formatted table
 make_table(vra_table_data, "VRA Simulation Results","table_2.html")
+
+# Total cities passing gingles test 
+sum(df2$black_gingles_c|df2$hisp_gingles_c)
+
+# Total passing and producing Black-district simulation 
+length(vra_bc$median)
+
+# Total passing and producing Black-district simulation 
+length(vra_hc$data$median)
+
+# Difference between actual and RB proportions  -Black
+mean(df2$actual_maj_blk_c[df2$majority_black_c_5th>0 | df2$actual_maj_blk_c>0]- df2$majority_black_c_median[df2$majority_black_c_5th>0 | df2$actual_maj_blk_c>0])
+# Difference between actual and VRA proportions -Black
+mean(df2$actual_maj_blk_c[df2$black_viables_c& df2$city %in% tolower(vra_bc$cities)]-vra_bc$median[order(vra_bc$cities)])
+
+# Difference between actual and RB proportions  -Black = 6.9%
+mean(df2$actual_maj_blk_c[df2$majority_black_c_5th>0 | df2$actual_maj_blk_c>0]- df2$majority_black_c_median[df2$majority_black_c_5th>0 | df2$actual_maj_blk_c>0])
+# Difference between actual and VRA proportions -Black = 6.3%
+mean(df2$actual_maj_blk_c[df2$black_viables_c& df2$city %in% tolower(vra_bc$cities)]-vra_bc$median[order(vra_bc$cities)])
+
+# Difference between actual and RB proportions  -Hispanic = 2.8%
+mean(df2$actual_maj_hisp_c[df2$majority_hisp_c_5th>0 | df2$actual_maj_hisp_c>0]- df2$majority_hisp_c_median[df2$majority_hisp_c_5th>0 | df2$actual_maj_hisp_c>0])
+# Difference between actual and VRA proportions -Hispanic = 2.2%
+mean(df2$actual_maj_hisp_c[df2$hisp_viables_c& df2$city %in% tolower(vra_hc$data$cities)]-vra_hc$data$median[order(vra_hc$data$cities)])
+

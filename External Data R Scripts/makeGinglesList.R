@@ -1,10 +1,12 @@
 library(dplyr)
 library(redist)
 
+setwd("~/Documents/GitHub/citl")
 
-aggregated_path <- "/scratch/network/gnovoa/Big City Maps/Big City Aggregated/2010"
+aggregated_path <- "./Complete Shapefiles/block data aggregated to districts/2010"
 
-block_path <-  "/scratch/network/gnovoa/Big City Maps/Big City Blocks/2010"
+block_path <- "./Complete Shapefiles/blocks clipped to cities/2010"
+  
 
 agg_city <-   list.files(path = aggregated_path, pattern = ".shp", full.names = FALSE)
 
@@ -28,8 +30,8 @@ black_viables_c<-list()
 # setwd("/Users/gnovoa/Library/Mobile Documents/com~apple~CloudDocs/Documents/Coloring in the Lines/RR/Complete Shapefiles/block data aggregated to districts L2/2010")
 # agg_city <- list.files(pattern="*.shp", full.names=FALSE) #Generate list of aggregated cities
 
-bank<-read.csv("/scratch/network/gnovoa/county_bank_rpv_plus.csv")
-rpv<-read.csv("/scratch/network/gnovoa/rpv_national_summary_2020.csv")
+bank<-read.csv("./external data/county_bank_rpv_plus.csv")
+rpv<-read.csv("./external data/national_summary_2020.csv")
 rpv$county<-gsub("city", "City" ,rpv$county) #to match bank
 rpv<-rpv[grepl("pre_16_r", rpv$cand),]
 

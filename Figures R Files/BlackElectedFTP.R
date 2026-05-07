@@ -47,6 +47,7 @@ results_dt <- data.table(
   prop_black_v = numeric(n_cities),
   prop_black_c = numeric(n_cities),
   prop_white = numeric(n_cities),
+  
   prop_white_v = numeric(n_cities),
   prop_white_c = numeric(n_cities),
   prop_hisp = numeric(n_cities),
@@ -227,7 +228,6 @@ for (batch in 1:n_batches) {
     
     # Now we can safely convert to data.table for efficient processing
     all_plans <- as.data.table(plans)
-    rm(plans)
     gc()
     
     # Calculate median and filter efficiently
@@ -454,7 +454,7 @@ density_plot <- ggplot(long_sim_filtered, aes(x = prop_elected, y = city_ordered
     aes(x = median_prop, xend = median_prop,  
         y = as.numeric(city_ordered) - 0, yend = as.numeric(city_ordered) + .8),
     color = "green",
-    size = 1.2,
+    size = 1.5,
     alpha = 0.9
   ) +
   geom_segment(
@@ -468,7 +468,7 @@ density_plot <- ggplot(long_sim_filtered, aes(x = prop_elected, y = city_ordered
   ) +
   labs(
     title = "Projected Distributions of Hisp. Councilmembers",
-    x = "Proportion of Districts with Elected Hisp. Candidates", 
+    x = "Proportion of Districts with Elected Black Candidates", 
     y = "City"
   ) +
   theme_minimal() +
@@ -477,8 +477,8 @@ density_plot <- ggplot(long_sim_filtered, aes(x = prop_elected, y = city_ordered
     plot.subtitle = element_text(size = 11),
     axis.title = element_text(size = 12),
     axis.text = element_text(size = 5),
-    axis.text.x=element_text(size=10),
-    axis.text.y=element_text(size=8),
+    axis.text.x=element_text(size=14),
+    axis.text.y=element_text(size=11),
     panel.grid.major.y = element_line(color = "gray90", size = 0.5),
     panel.grid.minor = element_blank(),
     panel.grid.major.x = element_line(color = "gray95", size = 0.3),

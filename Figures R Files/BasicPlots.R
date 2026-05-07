@@ -62,9 +62,9 @@ hprop<-ggplot(data=df, aes(x=prop_hisp_c, y=actual_maj_hisp_c))+ geom_point()+
 #   geom_abline( slope=1, intercept=0,linetype='dotted', col='blue')+ylab("Proportion of Majority-Asian Districts")+xlab("Asian Proportion of City by CVAP")
 
 
-grid.arrange(bprop, hprop, nrow = 1)
+combined_figure1<-grid.arrange(bprop, hprop, nrow = 1)
 
-ggplot2::ggsave(path="./Figures/", filename="Figure_1.tiff")
+ggplot2::ggsave(path="./Figures/", filename="Figure_1.tiff", plot=combined_figure1)
 
 # **** FIGURE 2 ***** Segregation Against Actual
 
@@ -84,9 +84,9 @@ hseg<-ggplot(data=df%>%filter(hisp_viable_c==1 & !(is.na(hisp_seg_c))), aes(x=hi
 #   geom_smooth(method = "lm", formula=y~x, fill='darkred')+
 #   ylab("Proportion of Majority-Asian Districts")+xlab("Asian Dissimilarity Index")
 
-grid.arrange(bseg, hseg, nrow = 1)
+combined_figure2<-grid.arrange(bseg, hseg, nrow = 1)
 
-ggplot2::ggsave(path="./Figures/", filename="Figure_2.tiff")
+ggplot2::ggsave(path="./Figures/", filename="Figure_2.tiff", plot=combined_figure2)
 
 
 #  *** FIGURE 3 **** Simulation Against Actual
@@ -100,7 +100,7 @@ hsim<-ggplot(data=df, aes(x=majority_hisp_c_median, y=actual_maj_hisp_c))+ geom_
 wsim<-ggplot(data=df, aes(x=majority_white_c_median, y=actual_maj_wht_c))+ geom_point() +xlim(0,1)+ylim(0,1)+
   geom_abline(slope=1, intercept=0,linetype='dotted', col='blue')+ylab("Proportion of Majority-White Districts Implemented")+xlab("Prop. White-Majority Simulated")
 
-grid.arrange(bsim, hsim, nrow = 1)
+combined_figure3<-grid.arrange(bsim, hsim, nrow = 1)
 
-ggplot2::ggsave(path="./Figures/", filename="Figure_3.tiff")
+ggplot2::ggsave(path="./Figures/", filename="Figure_3.tiff", plot=combined_figure3)
 

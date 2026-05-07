@@ -256,7 +256,7 @@ for (batch in 1:n_batches) {
     }
     
     # Clean up large objects
-    rm(blocks, agg_dists, city_map, plans, all_plans, filtered_plans)
+    rm(blocks, agg_dists, city_map, all_plans, filtered_plans)
     gc()
     
     cat("Completed city:", name, "(", i, "of", n_cities, ")\n")
@@ -477,8 +477,8 @@ density_plot <- ggplot(long_sim_filtered, aes(x = prop_elected, y = city_ordered
     plot.subtitle = element_text(size = 11),
     axis.title = element_text(size = 12),
     axis.text = element_text(size = 5),
-    axis.text.x=element_text(size=10),
-    axis.text.y=element_text(size=8),
+    axis.text.x=element_text(size=14),
+    axis.text.y=element_text(size=11),
     panel.grid.major.y = element_line(color = "gray90", size = 0.5),
     panel.grid.minor = element_blank(),
     panel.grid.major.x = element_line(color = "gray95", size = 0.3),
@@ -495,5 +495,3 @@ ggsave("Figure_9.tiff")
 sum(reps1020$absolute_hisp[!is.na(reps1020$city_ordered)])
 sum(city_medians$median_absolute[!is.na(city_medians$city_ordered)])
 
-
-#Plot Difference in Elected Hisp. Concilors Across Hisp. Proportion----
